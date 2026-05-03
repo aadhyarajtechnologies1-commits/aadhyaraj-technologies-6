@@ -28,7 +28,7 @@ export default function Contact() {
       });
 
       // Also call API for simulation/email (optional if we purely use Firestore)
-      await fetch('http://localhost:3000/api/contact', {
+      await fetch('/api/contact',{
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
