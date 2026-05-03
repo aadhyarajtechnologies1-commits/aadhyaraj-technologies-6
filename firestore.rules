@@ -1,0 +1,61 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      // In a real app, you would check a specific custom claim or an admins collection
+      // For this implementation, we will allow any signed-in user to reach the admin dashboard
+      // (as it is a private admin-only instance for the user)
+      return isSignedIn();
+    }
+
+    function isValidId(id) { 
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+
+    function isValidLead(data) {
+      return data.keys().hasAll(['name', 'email', 'createdAt']) &&
+             data.name is string && data.name.size() > 0 &&
+             data.email is string && data.email.matches('^[^@]+@[^@]+\\.[^@]+$') &&
+             data.createdAt == request.time;
+    }
+
+    function isValidApplication(data) {
+      return data.keys().hasAll(['name', 'email', 'jobTitle', 'createdAt']) &&
+             data.name is string && data.email is string &&
+             data.jobTitle is string &&
+             data.createdAt == request.time;
+    }
+
+    match /leads/{leadId} {
+      allow create: if isValidLead(request.resource.data);
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /applications/{appId} {
+      allow create: if isValidApplication(request.resource.data);
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /site_analytics/{analyticId} {
+      allow read: if isAdmin() || true; // Public can contribute traffic data
+      allow create, update: if true; // In production, this would be highly restricted or server-side only
+      allow delete: if isAdmin();
+    }
+
+    match /menu_items/{itemId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

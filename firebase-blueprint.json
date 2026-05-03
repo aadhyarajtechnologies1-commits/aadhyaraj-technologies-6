@@ -1,0 +1,66 @@
+{
+  "entities": {
+    "lead": {
+      "title": "Lead",
+      "description": "Captured lead information from contact/chat",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Full name" },
+        "phone": { "type": "string", "description": "Phone number" },
+        "email": { "type": "string", "format": "email", "description": "Email address" },
+        "subject": { "type": "string", "description": "Inquiry subject" },
+        "message": { "type": "string", "description": "Inquiry message" },
+        "type": { "type": "string", "enum": ["chat", "contact"], "description": "Source type" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["name", "email", "createdAt"]
+    },
+    "application": {
+      "title": "Job Application",
+      "description": "Recruitment application data",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "experience": { "type": "string" },
+        "jobTitle": { "type": "string" },
+        "message": { "type": "string" },
+        "fileName": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "reviewed", "shortlisted", "rejected"], "default": "pending" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "jobTitle", "createdAt"]
+    },
+    "analytic": {
+      "title": "Site Analytic",
+      "description": "Daily traffic logs",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "description": "YYYY-MM-DD" },
+        "views": { "type": "number" },
+        "uniqueVisitors": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["date", "views"]
+    },
+    "menu_item": {
+      "title": "Menu Item",
+      "description": "Dynamic menu configuration",
+      "type": "object",
+      "properties": {
+        "label": { "type": "string" },
+        "path": { "type": "string" },
+        "order": { "type": "number" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["label", "path", "order"]
+    }
+  },
+  "firestore": {
+    "leads": { "schema": "lead", "description": "Contact inquiries" },
+    "applications": { "schema": "application", "description": "Job applications" },
+    "site_analytics": { "schema": "analytic", "description": "Traffic data" },
+    "menu_items": { "schema": "menu_item", "description": "Frontend navigation" }
+  }
+}
