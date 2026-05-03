@@ -1,42 +1,47 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import nodemailer from "nodemailer";
-import { getUserEmail, getAdminEmail } from "./emailTemplates";
 
-/* =========================
-   EMAIL TEMPLATES (INLINE)
-========================= */
+// ================= TEMPLATE =================
 
 const baseTemplate = (content: string) => `
-  <div style="margin:0;padding:20px;background:#f4f6f8;font-family:Arial;">
-    <div style="max-width:600px;margin:auto;background:#fff;padding:20px;border-radius:10px;">
-      ${content}
-      <hr style="margin-top:30px;">
-      <p style="font-size:12px;color:#888;text-align:center;">
-        Aadhyaraj Technologies © ${new Date().getFullYear()}
-      </p>
+  <div style="background:#f4f6f8;padding:20px;font-family:Arial;">
+    <div style="max-width:600px;margin:auto;background:#fff;border-radius:8px;overflow:hidden;">
+      
+      <div style="background:#d7f5d1;padding:15px;">
+        <img src="https://aadhyaraj-technologies.vercel.app/logo3.png" width="140"/>
+        <h2 style="margin:5px 0;color:#0e7c61;">Aadhyaraj Technologies</h2>
+      </div>
+
+      <div style="padding:20px;">
+        ${content}
+      </div>
+
+      <div style="background:#f1f1f1;padding:15px;text-align:center;font-size:12px;">
+        © 2026 Aadhyaraj Technologies
+      </div>
+
     </div>
   </div>
 `;
 
-const getUserEmail = (name: string) => baseTemplate(`
-  <h2>Hi ${name},</h2>
-  <p>Thanks for contacting <b>Aadhyaraj Technologies</b>.</p>
-  <p>Our team will get back to you shortly.</p>
-`);
+const getUserEmail = (name: string) => {
+  return baseTemplate(`
+    <h2>Dear ${name},</h2>
+    <p>We’ve received your message. Our team will contact you soon.</p>
+  `);
+};
 
-const getAdminEmail = (data: any) => baseTemplate(`
-  <h2>New Contact Form Submission</h2>
+const getAdminEmail = (data: any) => {
+  return baseTemplate(`
+    <h2>New Contact Form Submission</h2>
+    <p><b>Name:</b> ${data.name}</p>
+    <p><b>Email:</b> ${data.email}</p>
+    <p><b>Phone:</b> ${data.phone}</p>
+    <p><b>Message:</b> ${data.message}</p>
+  `);
+};
 
-  <p><b>Name:</b> ${data.name}</p>
-  <p><b>Email:</b> ${data.email}</p>
-  <p><b>Phone:</b> ${data.phone}</p>
-  <p><b>Subject:</b> ${data.subject}</p>
-  <p><b>Message:</b> ${data.message}</p>
-`);
-
-/* =========================
-   HANDLER
-========================= */
+// ================= API =================
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
@@ -46,44 +51,34 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const { name, email, phone, subject, message } = req.body;
 
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-      throw new Error("Missing EMAIL_USER or EMAIL_PASS in environment variables");
-    }
-
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS, // Gmail APP PASSWORD
+        pass: process.env.EMAIL_PASS,
       },
     });
 
-    // ================= USER EMAIL =================
+    // USER EMAIL
     await transporter.sendMail({
-      from: `"AadhyaRaj Technologies" <${process.env.EMAIL_USER}>`,
+      from: `"Aadhyaraj Technologies" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: "Thanks for contacting Aadhyaraj Technologies",
-      html: <h1 style="color:red;">TEST EMAIL WORKING</h1>`,
+      subject: "Thanks for contacting us",
+      html: getUserEmail(name),
     });
 
-    // ================= ADMIN EMAIL =================
+    // ADMIN EMAIL
     await transporter.sendMail({
       from: `"Aadhyaraj Technologies" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
-      subject: subject || "New Contact Form Submission",
-      html: getAdminEmail({ name, email, phone, subject, message }),
+      subject: subject || "New Contact Form",
+      html: getAdminEmail({ name, email, phone, message }),
     });
 
-    return res.status(200).json({
-      success: true,
-      message: "Emails sent successfully",
-    });
+    return res.status(200).json({ success: true });
 
   } catch (error: any) {
     console.error("EMAIL ERROR:", error);
-    return res.status(500).json({
-      success: false,
-      error: error.message,
-    });
+    return res.status(500).json({ error: error.message });
   }
 }
