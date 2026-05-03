@@ -9,8 +9,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const { name, email, phone, subject, message } = req.body;
-    console.log("TEMPLATE TEST USER:", getUserEmail({ name }));
-    console.log("TEMPLATE TEST ADMIN:", getAdminEmail({ name, email, phone, subject, message }));
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -20,19 +18,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     });
 
-    // ✅ USER EMAIL (FULL DESIGN)
+    // ✅ USER EMAIL (USE TEMPLATE)
     await transporter.sendMail({
       from: `"Aadhyaraj Technologies" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Thanks for contacting Aadhyaraj Technologies",
-      html: `
-      <h1>TEST EMAIL</h1>
-      <img src="https://aadhyaraj-technologies.vercel.app/logo3.png" width="200"/>
-      <p>Footer test</p>
-`,
+      html: getUserEmail({ name }),
     });
 
-    // ✅ ADMIN EMAIL (FULL DESIGN)
+    // ✅ ADMIN EMAIL (USE TEMPLATE)
     await transporter.sendMail({
       from: `"Aadhyaraj Technologies" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
