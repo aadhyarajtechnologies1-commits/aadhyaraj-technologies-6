@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import nodemailer from "nodemailer";
+import { getUserEmail, getAdminEmail } from "../emails/templates";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
@@ -17,21 +18,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     });
 
+    // 📩 USER EMAIL
     await transporter.sendMail({
-      from: email,
+      from: `"Aadhyaraj Technologies" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: "Thanks for contacting Aadhyaraj Technologies",
+      html: getUserEmail({ name }),
+    });
+
+    // 📩 ADMIN EMAIL
+    await transporter.sendMail({
+      from: `"Aadhyaraj Technologies" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
       subject: subject || "New Contact Form Submission",
-      text: `
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-
-Message:
-${message}
-      `,
+      html: getAdminEmail({ name, email, phone, subject, message }),
     });
 
     return res.status(200).json({ success: true });
+
   } catch (error: any) {
     console.error("Email error:", error);
     return res.status(500).json({ error: error.message });
