@@ -25,11 +25,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       from: `"Aadhyaraj Technologies" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Thanks for contacting Aadhyaraj Technologies",
-      html: html: `
+      html: `
       <h1>TEST EMAIL</h1>
       <img src="https://aadhyaraj-technologies.vercel.app/logo3.png" width="200"/>
       <p>Footer test</p>
-    `,
+`,
     });
 
     // ✅ ADMIN EMAIL (FULL DESIGN)
