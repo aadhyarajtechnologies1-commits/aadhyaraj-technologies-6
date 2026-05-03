@@ -10,18 +10,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const { name, email, phone, subject, message } = req.body;
 
+    // 🔴 VALIDATION (IMPORTANT for production)
+    if (!email || !name) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-      tls: {
-       rejectUnauthorized: false, // 🔥 FIX
-      },
     });
 
-    // ✅ USER EMAIL (USE TEMPLATE)
+    // ================= USER EMAIL =================
     await transporter.sendMail({
       from: `"Aadhyaraj Technologies" <${process.env.EMAIL_USER}>`,
       to: email,
@@ -29,11 +31,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       html: getUserEmail({ name }),
     });
 
-    // ✅ ADMIN EMAIL (USE TEMPLATE)
+    // ================= ADMIN EMAIL =================
     await transporter.sendMail({
       from: `"Aadhyaraj Technologies" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
-      subject: subject || `New Contact Form Submission - ${name}`,
+      subject: `New Contact Form Submission - ${name}`,
       html: getAdminEmail({ name, email, phone, subject, message }),
     });
 
