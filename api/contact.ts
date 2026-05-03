@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import nodemailer from "nodemailer";
-import { getUserEmail, getAdminEmail } from "./emailTemplates.js";
+import { getUserEmail, getAdminEmail } from "./templates.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
