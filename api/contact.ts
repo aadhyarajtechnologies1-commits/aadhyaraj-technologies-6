@@ -60,10 +60,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // ================= USER EMAIL =================
     await transporter.sendMail({
-      from: `"Website Contact" <${process.env.EMAIL_USER}>`,
+      from: `"AadhyaRaj Technologies" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Thanks for contacting Aadhyaraj Technologies",
-      html: getUserEmail({ name }),
+      html: <h1 style="color:red;">TEST EMAIL WORKING</h1>`,
     });
 
     // ================= ADMIN EMAIL =================
