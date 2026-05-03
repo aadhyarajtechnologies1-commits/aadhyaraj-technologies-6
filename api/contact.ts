@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import nodemailer from "nodemailer";
+import { getUserEmail, getAdminEmail } from "./emailTemplates";
 
 /* =========================
    EMAIL TEMPLATES (INLINE)
@@ -59,15 +60,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // ================= USER EMAIL =================
     await transporter.sendMail({
-      from: `"Aadhyaraj Technologies" <${process.env.EMAIL_USER}>`,
+      from: `"Website Contact" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: "Thanks for contacting us",
-      html: getUserEmail(name),
+      subject: "Thanks for contacting Aadhyaraj Technologies",
+      html: getUserEmail({ name }),
     });
 
     // ================= ADMIN EMAIL =================
     await transporter.sendMail({
-      from: `"Website Contact" <${process.env.EMAIL_USER}>`,
+      from: `"Aadhyaraj Technologies" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
       subject: subject || "New Contact Form Submission",
       html: getAdminEmail({ name, email, phone, subject, message }),
