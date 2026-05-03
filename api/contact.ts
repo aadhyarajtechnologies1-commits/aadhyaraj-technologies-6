@@ -16,6 +16,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
+      tls: {
+       rejectUnauthorized: false, // 🔥 FIX
+      },
     });
 
     // ✅ USER EMAIL (USE TEMPLATE)
@@ -30,7 +33,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await transporter.sendMail({
       from: `"Aadhyaraj Technologies" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
-      subject: subject || "New Contact Form Submission",
+      subject: subject || `New Contact Form Submission - ${name}`,
       html: getAdminEmail({ name, email, phone, subject, message }),
     });
 
