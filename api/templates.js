@@ -29,14 +29,6 @@ const baseTemplate = (content) => `
             <td style="padding:20px;font-family:Arial;font-size:14px;color:#333;line-height:1.6;">
               ${content}
 
-              <!-- SIGNATURE -->
-              <p style="margin-top:20px;">
-                Regards,<br/>
-                <strong>AadhyaRaj Technologies Team</strong>
-              </p>
-            </td>
-          </tr>
-
           <!-- FOOTER -->
           <tr>
             <td style="background:#f1f1f1;text-align:center;padding:15px;font-size:13px;">
@@ -62,6 +54,15 @@ export const getUserEmail = ({ name }) =>
     <p>We’ve received your message and our team will get back to you shortly.</p>
 
     <p>We appreciate your interest in Aadhyaraj Technologies.</p>
+
+    
+    <!-- SIGNATURE -->
+      <p style="margin-top:20px;">
+       Regards,<br/>
+       <strong>AadhyaRaj Technologies Team</strong>
+       </p>
+       </td>
+       </tr>
 
     <!-- BUTTONS -->
     <div style="text-align:center;margin:20px 0;">
