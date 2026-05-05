@@ -1,6 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import nodemailer from "nodemailer";
 import { getUserEmail, getAdminEmail } from "./templates.js";
+import { db } from "../lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
@@ -9,11 +11,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const { name, email, phone, subject, message } = req.body;
+    
 
-    // 🔴 VALIDATION (IMPORTANT for production)
+    if (!email || !name) {
+       return res.status(400).json({ message: "Missing required fields" });
+    }
+    
+       // 🔴 VALIDATION (IMPORTANT for production)
     if (!email || !name) {
       return res.status(400).json({ message: "Missing required fields" });
     }
+    // ✅ SAVE TO FIRESTORE
+      await addDoc(collection(db, "contacts"), {
+        name,
+        email,
+        phone,
+        subject,
+        message,
+        createdAt: serverTimestamp()
+      });
 
     const transporter = nodemailer.createTransport({
       service: "gmail",

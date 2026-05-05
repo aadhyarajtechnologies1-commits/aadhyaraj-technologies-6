@@ -19,14 +19,22 @@ export default function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    try {
       // Save to Firestore
-      await addDoc(collection(db, "leads"), {
-        ...formData,
-        type: "contact",
-        createdAt: serverTimestamp()
-      });
+        
+      try{
 
+      const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await res.json();
+
+    // ❗ IMPORTANT FIX
+    if (!res.ok) {
+      throw new Error(data.message || "Submission failed");
+    }
       // Also call API for simulation/email (optional if we purely use Firestore)
       await fetch('/api/contact',{
         method: 'POST',
