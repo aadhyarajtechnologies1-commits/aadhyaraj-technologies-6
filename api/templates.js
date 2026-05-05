@@ -18,26 +18,26 @@ const baseTemplate = (content) => `
   </div> 
   </td> 
   </tr>
-          <!-- BODY -->
-          <tr>
-            <td style="padding:20px;font-family:Arial;font-size:14px;color:#333;line-height:1.6;">
-              ${content}
+  <!-- BODY -->
+  <tr>
+   <td style="padding:20px;font-family:Arial;font-size:14px;color:#333;line-height:1.6;">
+   ${content}
 
-          <!-- FOOTER -->
-          <tr>
-            <td style="background:#f1f1f1;text-align:center;padding:15px;font-size:13px;">
-              <p><strong>Aadhyaraj Technologies</strong></p>
-              <p>Email: info@aadhyarajtechnologies.com</p>
-              <p><a href="${LINKEDIN_URL}">Connect on LinkedIn</a></p>
-              <p>© 2026 Aadhyaraj Technologies. All rights reserved.</p>
-            </td>
-          </tr>
-
-        </table>
-
-      </td>
+    <!-- FOOTER -->
+    <tr>
+     <td style="background:#f1f1f1;text-align:center;padding:15px;font-size:13px;">
+      <p><strong>Aadhyaraj Technologies</strong></p>
+      <p>Email: info@aadhyarajtechnologies.com</p>
+      <p><a href="${LINKEDIN_URL}">Connect on LinkedIn</a></p>
+      <p>© 2026 Aadhyaraj Technologies. All rights reserved.</p>
+     </td>
     </tr>
-  </table>
+
+    </table>
+
+    </td>
+  </tr>
+</table>
 `;
 
 /* ================= USER EMAIL ================= */
