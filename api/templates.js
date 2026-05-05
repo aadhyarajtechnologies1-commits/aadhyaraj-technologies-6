@@ -8,21 +8,7 @@ const WEBSITE_URL = "https://aadhyarajtechnologies.com";
 
 /* ================= BASE TEMPLATE ================= */
 const baseTemplate = (content) => `
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6f8;padding:20px 0;">
-    <tr>
-      <td align="center">
-
-        <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #eee;">
-
-          <!-- HEADER -->
-          <tr>
-            <td style="text-align:center;padding:20px;">
-              <img src="${LOGO_URL}" width="120" style="display:block;margin:0 auto;" />
-              <div style="font-size:20px;font-weight:bold;color:#0e7c61;">
-                AadhyaRaj Technologies
-              </div>
-            </td>
-          </tr>
+ <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6f8;padding:20px 0;"> <tr> <td align="center"> <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #eee;"> <!-- HEADER --> <tr> <td style="background:#d7f5d1;text-align:center;padding:20px;"> <img src="${LOGO_URL}" width="120"/> <div style="font-size:20px;font-weight:bold;color:#0e7c61;"> AadhyaRaj Technologies </div> </td> </tr>
 
           <!-- BODY -->
           <tr>
