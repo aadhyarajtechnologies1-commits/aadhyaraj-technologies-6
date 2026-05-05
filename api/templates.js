@@ -1,5 +1,4 @@
-const LOGO_URL =
-  "https://raw.githubusercontent.com/aadhyarajtechnologies1-commits/aadhyaraj-technologies/main/logo3.png";
+const LOGO_URL = "https://aadhyaraj-technologies-6.vercel.app/logo3.png";
 
 const LINKEDIN_URL =
   "https://www.linkedin.com/company/aadhyaraj-technologies";
