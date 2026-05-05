@@ -36,33 +36,34 @@ const baseTemplate = (content) => `
                 <strong>AadhyaRaj Technologies Team</strong>
               </p>
 
-              <!-- BUTTONS -->
-              <div style="text-align:center;margin-top:25px;">
-
-                <a href="${WEBSITE_URL}"
-                  style="display:inline-block;background:#0b5ed7;color:#fff;
-                  padding:10px 18px;text-decoration:none;border-radius:4px;
-                  margin-right:10px;font-weight:bold;">
-                  Visit Our Website
-                </a>
-
-                <a href="${LINKEDIN_URL}"
-                  style="display:inline-block;background:#0b5ed7;color:#fff;
-                  padding:10px 18px;text-decoration:none;border-radius:4px;
-                  font-weight:bold;">
-                  Follow on LinkedIn
-                </a>
-
-              </div>
-
             </td>
           </tr>
 
-          <!-- FOOTER -->
+          <!-- FOOTER (COMMON FOR BOTH) -->
           <tr>
-            <td style="background:#f1f1f1;text-align:center;padding:15px;font-size:13px;">
-              <p><strong>Aadhyaraj Technologies</strong></p>
-              <p>© 2026 Aadhyaraj Technologies</p>
+            <td style="background:#f1f1f1;text-align:center;padding:15px;font-size:13px;line-height:1.6;">
+              
+              <p style="margin:5px 0;"><strong>Aadhyaraj Technologies</strong></p>
+
+              <p style="margin:5px 0;">
+                Email:
+                <a href="mailto:info@aadhyarajtechnologies.com"
+                   style="color:#0b5ed7;text-decoration:none;">
+                   info@aadhyarajtechnologies.com
+                </a>
+              </p>
+
+              <p style="margin:10px 0;">
+                <a href="${LINKEDIN_URL}"
+                   style="color:#0b5ed7;text-decoration:none;font-weight:bold;">
+                   Connect on LinkedIn
+                </a>
+              </p>
+
+              <p style="margin-top:10px;color:#999;">
+                © 2026 Aadhyaraj Technologies. All rights reserved.
+              </p>
+
             </td>
           </tr>
 
@@ -79,6 +80,25 @@ export const getUserEmail = ({ name }) =>
     <h2>Dear ${name},</h2>
     <p>We’ve received your message and our team will get back to you shortly.</p>
     <p>We appreciate your interest in Aadhyaraj Technologies.</p>
+
+    <!-- BUTTONS (ONLY FOR USER) -->
+    <div style="text-align:center;margin-top:25px;">
+
+      <a href="${WEBSITE_URL}"
+        style="display:inline-block;background:#0b5ed7;color:#fff;
+        padding:10px 18px;text-decoration:none;border-radius:4px;
+        margin-right:10px;font-weight:bold;">
+        Visit Our Website
+      </a>
+
+      <a href="${LINKEDIN_URL}"
+        style="display:inline-block;background:#0b5ed7;color:#fff;
+        padding:10px 18px;text-decoration:none;border-radius:4px;
+        font-weight:bold;">
+        Follow on LinkedIn
+      </a>
+
+    </div>
   `);
 
 /* ================= ADMIN EMAIL ================= */
@@ -91,4 +111,14 @@ export const getAdminEmail = ({ name, email, phone, subject, message }) =>
     <p><b>Phone:</b> ${phone}</p>
     <p><b>Subject:</b> ${subject}</p>
     <p><b>Message:</b> ${message}</p>
+
+    <!-- SINGLE REPLY BUTTON -->
+    <div style="text-align:center;margin-top:25px;">
+      <a href="mailto:${email}"
+        style="display:inline-block;background:#0b5ed7;color:#fff;
+        padding:12px 20px;text-decoration:none;border-radius:5px;
+        font-weight:bold;">
+        Reply ${name}
+      </a>
+    </div>
   `);
