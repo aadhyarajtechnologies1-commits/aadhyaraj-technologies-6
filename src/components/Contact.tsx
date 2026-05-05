@@ -28,25 +28,24 @@ export default function Contact() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
     });
-
-    const data = await res.json();
+    let data;
+      try {
+        data = await res.json();
+      } catch {
+        data = { message: "Invalid server response" };
+      }
 
     // ❗ IMPORTANT FIX
     if (!res.ok) {
       throw new Error(data.message || "Submission failed");
     }
-      // Also call API for simulation/email (optional if we purely use Firestore)
-      await fetch('/api/contact',{
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
 
+    
       setShowSuccess(true);
       setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Submission failed. Please check your connection.");
+      alert("Submission failed. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
